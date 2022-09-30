@@ -1,15 +1,31 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import Modal from "./components/Modal";
-import IconNewSpent from "./img/add-spent.svg";
+import ExpenseList from "./components/ExpenseList";
+import { generateUniqueId, formatDate } from "./helpers";
 
 function App() {
   const [budget, setBudget] = useState("");
   const [isValidBudget, setIsValidBudget] = useState(false);
   const [modal, setModal] = useState(false);
+  const [expense, setExpense] = useState({});
+  const [expenses, setExpenses] = useState([]);
 
   const handleNewExpense = () => {
-    setModal(true);
+    setTimeout(() => {
+      setModal(true);
+    }, 400);
+  };
+
+  const saveExpense = (expense) => {
+    expense.id = generateUniqueId();
+    expense.date = formatDate(Date.now());
+    setExpenses([...expenses, expense]);
+    console.log(expenses);
+
+    setTimeout(() => {
+      setModal(false);
+    }, 400);
   };
 
   return (
@@ -22,15 +38,21 @@ function App() {
       />
 
       {isValidBudget && (
-        <button
-          className="uppercase text-white font-bold absolute right-10 mt-10"
-          onClick={handleNewExpense}
-        >
-          Add Expense
-        </button>
+        <>
+          <button
+            className="uppercase text-white font-bold absolute right-16 top-96"
+            onClick={handleNewExpense}
+          >
+            Add Expense
+          </button>
+
+          <main className="mt-20 text-center">
+            <ExpenseList expense={expense} expenses={expenses} />
+          </main>
+        </>
       )}
 
-      {modal && <Modal setModal={setModal} />}
+      {modal && <Modal setModal={setModal} saveExpense={saveExpense} />}
     </div>
   );
 }

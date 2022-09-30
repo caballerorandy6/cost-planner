@@ -1,9 +1,9 @@
-const Message = ({ children }) => {
+const ModalMessage = ({ children }) => {
   return (
-    <div className=" text-red-700 font-bold mt-2 text-center ">
-      <p>{children}</p>
+    <div className="bg-red-700 p-1 mt-4 text-white text-center w-full ">
+      {children}
     </div>
   );
 };
 
-export default Message;
+export default ModalMessage;

@@ -32,7 +32,6 @@ const BudgetForm = ({ budget, setBudget, setIsValidBudget }) => {
           <input
             id="inputBudget"
             type="number"
-            placeholder="Add a budget. Example: 100"
             className="p-2 w-full bg-gray-100 rounded-md ring-2 text-center mb-4"
             value={budget}
             onChange={(e) => setBudget(Number(e.target.value))}
@@ -41,11 +40,10 @@ const BudgetForm = ({ budget, setBudget, setIsValidBudget }) => {
           <input
             type="submit"
             value="add"
-            className="bg-blue-600 text-white hover:bg-blue-700 transition-colors w-full p-1 mb-6 uppercase font-bold"
+            className="bg-blue-600 text-white hover:bg-blue-700 transition-colors w-full p-1 uppercase font-bold"
           />
+          {message && <Message>{message}</Message>}
         </form>
-
-        {message && <Message>{message}</Message>}
       </div>
     </div>
   );
