@@ -1,12 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Message from "./Message";
 import CloseModal from "../img/close.svg";
 
-const Modal = ({ setModal, setExpenses, saveExpense }) => {
+const Modal = ({
+  setModal,
+  setExpenses,
+  saveExpense,
+  expenseEdit,
+  setExpenseEdit,
+}) => {
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("");
+  const [date, setDate] = useState("");
+  const [id, setId] = useState("");
+
+  //Fill the fields in Modal when click occurs
+  useEffect(() => {
+    if (Object.keys(expenseEdit).length > 0) {
+      setName(expenseEdit.name);
+      setQuantity(expenseEdit.quantity);
+      setCategory(expenseEdit.category);
+      setDate(expenseEdit.date);
+      setId(expenseEdit.id);
+    }
+  }, []);
+
+  const closeModal = () => {
+    setModal(false);
+    setExpenseEdit({});
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,11 +43,7 @@ const Modal = ({ setModal, setExpenses, saveExpense }) => {
       return;
     }
 
-    saveExpense({ name, quantity, category });
-  };
-
-  const closeModal = () => {
-    setModal(false);
+    saveExpense({ name, quantity, category, date, id });
   };
 
   return (
@@ -36,7 +56,7 @@ const Modal = ({ setModal, setExpenses, saveExpense }) => {
         className="w-1/3 mx-auto align-middle flex flex-col mt-20"
       >
         <legend className="text-white text-3xl text-center p-2 mb-4 border-b-2 border-blue-900">
-          New Expense
+          {expenseEdit.name ? "Edit Expense" : "New Expense"}
         </legend>
 
         {message && <Message>{message}</Message>}
@@ -91,6 +111,7 @@ const Modal = ({ setModal, setExpenses, saveExpense }) => {
         <input
           type="submit"
           className="bg-blue-600 text-white p-1 mt-2 uppercase font-bold hover:bg-blue-700 transition-colors cursor-pointer"
+          value={expenseEdit.name ? "Save Changes" : "Add Expense"}
         />
       </form>
     </div>

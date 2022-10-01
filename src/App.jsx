@@ -1,36 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Modal from "./components/Modal";
 import ExpenseList from "./components/ExpenseList";
 import { generateUniqueId, formatDate } from "./helpers";
 
 function App() {
+  const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState("");
   const [isValidBudget, setIsValidBudget] = useState(false);
   const [modal, setModal] = useState(false);
-  const [expense, setExpense] = useState({});
-  const [expenses, setExpenses] = useState([]);
+  const [expenseEdit, setExpenseEdit] = useState({});
+
+  useEffect(() => {
+    if (Object.keys(expenseEdit).length > 0) {
+      setModal(true);
+    }
+  }, [expenseEdit]);
 
   const handleNewExpense = () => {
-    setTimeout(() => {
-      setModal(true);
-    }, 400);
+    setModal(true);
+    setExpenseEdit({});
   };
 
   const saveExpense = (expense) => {
-    expense.id = generateUniqueId();
-    expense.date = formatDate(Date.now());
-    setExpenses([...expenses, expense]);
-    console.log(expenses);
+    if (expense.id) {
+      //Update
+      const updatedExpenses = expenses.map((stateExpense) =>
+        stateExpense.id === expense.id ? expense : stateExpense
+      );
+      setExpenses(updatedExpenses);
+    } else {
+      //New expense
+      expense.id = generateUniqueId();
+      expense.date = formatDate(Date.now());
+      setExpenses([...expenses, expense]);
+    }
+    setModal(false);
+  };
 
-    setTimeout(() => {
-      setModal(false);
-    }, 400);
+  //Delete
+  const deleteExpense = (id) => {
+    const deleted = expenses.filter((expense) => expense.id !== id);
+    setExpenses(deleted);
   };
 
   return (
-    <div className="App">
+    <div className={modal ? "overflow-hidden h-screen" : ""}>
       <Header
+        expenses={expenses}
         budget={budget}
         setBudget={setBudget}
         isValidBudget={isValidBudget}
@@ -40,19 +57,30 @@ function App() {
       {isValidBudget && (
         <>
           <button
-            className="uppercase text-white font-bold absolute right-16 top-96"
+            className="bg-blue-600 py-2 px-6 rounded-md hover:bg-blue-700 transition-colors uppercase text-white font-bold fixed bottom-20 right-10"
             onClick={handleNewExpense}
           >
             Add Expense
           </button>
 
           <main className="mt-20 text-center">
-            <ExpenseList expense={expense} expenses={expenses} />
+            <ExpenseList
+              expenses={expenses}
+              setExpenseEdit={setExpenseEdit}
+              deleteExpense={deleteExpense}
+            />
           </main>
         </>
       )}
 
-      {modal && <Modal setModal={setModal} saveExpense={saveExpense} />}
+      {modal && (
+        <Modal
+          setModal={setModal}
+          saveExpense={saveExpense}
+          expenseEdit={expenseEdit}
+          setExpenseEdit={setExpenseEdit}
+        />
+      )}
     </div>
   );
 }
