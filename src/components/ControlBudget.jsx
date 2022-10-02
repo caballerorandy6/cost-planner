@@ -29,7 +29,7 @@ const ControlBudget = ({
     setAvailable(totalAvailable);
   }, [expenses]);
 
-  const percentageSpent = (100 * spent.toFixed) / budget;
+  const percentageSpent = (100 * spent) / budget;
 
   const handleResetApp = () => {
     const result = confirm("Do you want to reset the budget and expenses?");
