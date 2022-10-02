@@ -20,8 +20,8 @@ const BudgetForm = ({ budget, setBudget, setIsValidBudget }) => {
 
   return (
     <div className="flex justify-center">
-      <div className="bg-white mt-10 sm:w-3/5 md:w-2/5  rounded-md shadow-md py-10 flex flex-col justify-center items-center absolute ">
-        <h2 className="text-center text-2xl text-gray-700 font-bold  mb-4">
+      <div className="bg-white mt-10 w-4/6 sm:w-3/5 md:w-3/6 lg:w-2/6  rounded-md shadow-md py-10 flex flex-col justify-center items-center absolute ">
+        <h2 className="text-center w-4/5 text-2xl text-gray-700 font-bold  mb-4">
           Monthly Budget
         </h2>
 

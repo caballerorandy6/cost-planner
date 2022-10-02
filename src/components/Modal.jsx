@@ -47,13 +47,18 @@ const Modal = ({
   };
 
   return (
-    <div className="absolute bg-black bg-opacity-90 top-0 left-0 right-0 bottom-0 z-10">
-      <div className="w-20 cursor-pointer -right-2 mt-10 mr-10 absolute">
-        <img src={CloseModal} alt="Close Modal" onClick={closeModal} />
+    <div className="absolute bg-black bg-opacity-90 top-0 left-0 right-0 bottom-0 ">
+      <div>
+        <img
+          src={CloseModal}
+          alt="Close Modal"
+          className="w-10 cursor-pointer -right-2 mt-10 mr-10 absolute"
+          onClick={closeModal}
+        />
       </div>
       <form
         onSubmit={handleSubmit}
-        className="w-1/3 mx-auto align-middle flex flex-col mt-20"
+        className="w-4/6 sm:w-3/6 lg:w-2/6 mx-auto align-middle flex flex-col mt-20"
       >
         <legend className="text-white text-3xl text-center p-2 mb-4 border-b-2 border-blue-900">
           {expenseEdit.name ? "Edit Expense" : "New Expense"}
